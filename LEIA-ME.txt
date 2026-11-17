@@ -1,0 +1,13 @@
+MX PORTFOLIO
+1. Abra esta pasta no VS Code.
+2. Instale a extensao "Live Server" (Ritwick Dey).
+3. Clique com o botao direito em index.html > "Open with Live Server".
+(Nao abra o index.html com duplo clique: o navegador bloqueia o carregamento do rosto 3D sem um servidor.)
+
+ARQUIVOS
+- index.html   estrutura e textos
+- style.css    visual (herdado do seu repositorio)
+- main.js      cena 3D e a transicao rosto > pontos > MX
+- assets/      geo.bin + face.webp = rosto 3D leve usado no site; ete-dashboard.webp = captura da ETE; mx-rosto.glb = o mesmo rosto em .glb (1,5 MB), para outros usos
+
+Para publicar: qualquer hospedagem estatica (Netlify, Vercel, GitHub Pages).
