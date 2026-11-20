@@ -25,7 +25,7 @@ const tw=x.measureText('MX').width,mw=x.measureText('M').width,sx=(w-tw)/2;x.fil
 const d=x.getImageData(0,0,w,h).data,L=[];for(let y=0;y<h;y+=2)for(let X=0;X<w;X+=2)if(d[(y*w+X)*4+3]>128)L.push([X,y]);
 const k=Math.min(1.55,visW*(innerWidth<760?.8:.46))/tw;for(let i=0;i<NP;i++){const p=L[(Math.random()*L.length)|0]||[w/2,h/2];dst[i*3]=(p[0]-w/2)*k;dst[i*3+1]=-(p[1]-h/2)*k;dst[i*3+2]=(Math.random()-.5)*.03;const red=p[0]>=sx+mw;dcol[i*3]=red?.94:1;dcol[i*3+1]=red?.09:.95;dcol[i*3+2]=red?.21:.95}lastM=-1}
 function size(){const w=innerWidth,h=innerHeight,a=w/h;R.setPixelRatio(Math.min(devicePixelRatio,mob?1.75:2));R.setSize(w,h,false);cam.aspect=a;cam.position.z=Math.max(3.05,1.82/a);cam.updateProjectionMatrix();visW=2*cam.position.z*Math.tan(15*Math.PI/180)*a;
-const H=2*cam.position.z*Math.tan(15*Math.PI/180);if(a>1){B0=[visW*.22,-.02,1];B1=B0}else{B0=[visW*.2,H*.23,.5];B1=[0,-H*.1,1]}letters()}
+const H=2*cam.position.z*Math.tan(15*Math.PI/180);if(a>1){B0=[visW*.22,-.02,1];B1=B0}else{B0=[0,H*.2,.52];B1=[0,-H*.1,1]}rl.intensity=a>1?6:2.5;letters()}
 addEventListener('resize',size);size();if(document.fonts)document.fonts.load("700 100px 'Space Grotesk'").then(letters);
 const sm=(x,a,b)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};
 let mx=0,my=0,tx=0,ty=0,Qc=0;

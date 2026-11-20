@@ -1397,3 +1397,15 @@ html {
     font-size:clamp(44px,12vw,64px)
   }
 }
+
+/* Celular: rosto no topo, texto logo abaixo */
+@media(max-width:680px) {
+  .hero {
+    height:auto;
+    min-height:0;
+    max-height:none;
+    align-items:flex-start;
+    padding-top:max(47svh,390px);
+    padding-bottom:70px
+  }
+}
