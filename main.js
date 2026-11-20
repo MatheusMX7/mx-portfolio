@@ -19,13 +19,13 @@ for(let i=0;i<NP;i++){const v=(Math.random()*N)|0;for(let k=0;k<3;k++)src[i*3+k]
 const dot=document.createElement('canvas');dot.width=dot.height=32;const dx=dot.getContext('2d');dx.fillStyle='#fff';dx.beginPath();dx.arc(16,16,15,0,7);dx.fill();
 const pm=new THREE.PointsMaterial({size:.011,map:new THREE.CanvasTexture(dot),transparent:true,alphaTest:.2,depthWrite:false,vertexColors:true});
 const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(cur,3));pg.setAttribute('color',new THREE.BufferAttribute(col,3));const pts=new THREE.Points(pg,pm);pts.frustumCulled=false;g.add(pts);
-let visW=1,lastM=-1,ox=0;
+let visW=1,lastM=-1,B0=[0,0,1],B1=[0,0,1];
 function letters(){const w=1000,h=520,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.font="700 430px 'Space Grotesk',Arial,sans-serif";x.textBaseline='middle';
 const tw=x.measureText('MX').width,mw=x.measureText('M').width,sx=(w-tw)/2;x.fillText('MX',sx,h/2+20);
 const d=x.getImageData(0,0,w,h).data,L=[];for(let y=0;y<h;y+=2)for(let X=0;X<w;X+=2)if(d[(y*w+X)*4+3]>128)L.push([X,y]);
 const k=Math.min(1.55,visW*(innerWidth<760?.8:.46))/tw;for(let i=0;i<NP;i++){const p=L[(Math.random()*L.length)|0]||[w/2,h/2];dst[i*3]=(p[0]-w/2)*k;dst[i*3+1]=-(p[1]-h/2)*k;dst[i*3+2]=(Math.random()-.5)*.03;const red=p[0]>=sx+mw;dcol[i*3]=red?.94:1;dcol[i*3+1]=red?.09:.95;dcol[i*3+2]=red?.21:.95}lastM=-1}
 function size(){const w=innerWidth,h=innerHeight,a=w/h;R.setPixelRatio(Math.min(devicePixelRatio,mob?1.75:2));R.setSize(w,h,false);cam.aspect=a;cam.position.z=Math.max(3.05,1.82/a);cam.updateProjectionMatrix();visW=2*cam.position.z*Math.tan(15*Math.PI/180)*a;
-ox=a>1?visW*.22:0;g.position.set(ox,a>1?-.02:-.45,0);letters()}
+const H=2*cam.position.z*Math.tan(15*Math.PI/180);if(a>1){B0=[visW*.22,-.02,1];B1=B0}else{B0=[visW*.2,H*.23,.5];B1=[0,-H*.1,1]}letters()}
 addEventListener('resize',size);size();if(document.fonts)document.fonts.load("700 100px 'Space Grotesk'").then(letters);
 const sm=(x,a,b)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};
 let mx=0,my=0,tx=0,ty=0,Qc=0;
@@ -35,7 +35,7 @@ const yr=document.getElementById('year');if(yr)yr.textContent=new Date().getFull
 const E=document.getElementById('rosto');
 function loop(){const r=E.getBoundingClientRect(),vh=innerHeight,q=Math.min(1,Math.max(0,(vh-r.top)/r.height)),out=Math.min(1,Math.max(0,(vh*.9-r.bottom)/(vh*.5)));
 Qc+=(q-Qc)*.14;tx+=(mx*.45-tx)*.08;ty+=(my*.2-ty)*.08;
-g.rotation.y=tx*(1-sm(Qc,.3,.5))+sm(Qc,.12,.55)*Math.PI*2;g.rotation.x=ty*(1-sm(Qc,.1,.3));
+g.rotation.y=tx*(1-sm(Qc,.3,.5))+sm(Qc,.12,.55)*Math.PI*2;g.rotation.x=ty*(1-sm(Qc,.1,.3));const pz=sm(Qc,.3,.6);g.position.set(B0[0]+(B1[0]-B0[0])*pz,B0[1]+(B1[1]-B0[1])*pz,0);g.scale.setScalar(B0[2]+(B1[2]-B0[2])*pz);
 const f=sm(Qc,.1,.3);mat.opacity=1-f;pm.opacity=f*(1-out);mesh.visible=mat.opacity>.01;pts.visible=pm.opacity>.01;
 const M=sm(Qc,.5,.85);if(Math.abs(M-lastM)>.0005||(M>0&&M<1)){lastM=M;const t=performance.now()/1000;for(let i=0;i<NP;i++){const m=sm(M,dl_[i],dl_[i]+.6),fl=(1-m)*.004;for(let k=0;k<3;k++){const j=i*3+k;cur[j]=src[j]+(dst[j]-src[j])*m+Math.sin(t*1.3+i+k)*fl;col[j]=.96+(dcol[j]-.96)*m}}pg.attributes.position.needsUpdate=true;pg.attributes.color.needsUpdate=true}
 R.render(sc,cam);requestAnimationFrame(loop)}
